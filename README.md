@@ -5,4 +5,4 @@
   echo $GOPATH
 ## Install main
   go install main
-## Prueba
+## test
