@@ -1,7 +1,12 @@
 # api-go
 
-## Export $GOPATH 
-  export GOPATH=`pwd`
-  echo $GOPATH
-## Install main
-  go install main
+## Go > 
+src/main/
+
+## Build
+
+``go build``
+
+## Run
+
+``./main``
