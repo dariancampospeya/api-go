@@ -8,7 +8,7 @@ import (
 )
 
 func Run() {
-	fmt.Println("\n\tServer ON [::]:3000")
+	fmt.Println("\n\tServer [::]:3000")
 	r := router.New()
 	log.Fatal(http.ListenAndServe(":3000", r))
 }
