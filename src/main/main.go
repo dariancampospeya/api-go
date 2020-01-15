@@ -16,7 +16,7 @@ func main() {
 	shell := ishell.New()
 
 	// display info.
-	shell.Println("Sample Interactive Shell")
+	shell.Println("Darian Campos Test")
 
 	//Consider the unicode characters supported by the users font
 	//shell.SetMultiChoicePrompt(" >>"," - ")
@@ -94,7 +94,8 @@ func main() {
 		},
 	})
 
-	// multiple choice
+	// Agregar nuevo módulo choice
+	red := color.New(color.FgRed).SprintFunc()
 	shell.AddCmd(&ishell.Cmd{
 		Name: "Add",
 		Help: "Agregar modulos a su proyecto",
@@ -104,24 +105,55 @@ func main() {
 				"iOS",
 				"Backend",
 				"Otro",
-			}, "¿Qué scaffolding quieres crear?")
+			}, red("¿Qué scaffolding quieres crear?"))
 			if choice == 0 {
 				c.Println("Creando scaffolding de Android")
-			} else if (choice == 1) {
+			} else if choice == 1 {
 				c.Println("Creando scaffolding de iOS")
-			}else if (choice == 2) {
-					choice2 := c.MultiChoice([]string{
-						"Go",
-						"NodeJs",
-						"Python",
-					}, "¿Qué lenguaje desea utilizar?")
-					if choice2  == 0 {
-						c.Println("Creando scaffolding de Go")
-					} else if (choice2 == 1) {
-						c.Println("Creando scaffolding de NodeJS")
-					} else if (choice2 == 2) {
-						c.Println("Creando scaffolding de Python")
+			} else if choice == 2 {
+				choice2 := c.MultiChoice([]string{
+					"Go",
+					"NodeJs",
+					"Python",
+				}, "¿Qué lenguaje desea utilizar?")
+				languages := []string{"DB", "Docker", "CI-CD", "Athena", "New Relic", "Data Dog"}
+				if choice2 == 0 {
+					c.Println("Creando scaffolding de Go")
+					choices := c.Checklist(languages,
+						"Agregar pre-configuraciones",
+						nil)
+					out := func() (c []string) {
+						for _, v := range choices {
+							c = append(c, languages[v])
+						}
+						return
 					}
+					c.Println("Configuraciones agregadas", strings.Join(out(), ", "))
+				} else if choice2 == 1 {
+					c.Println("Creando scaffolding de NodeJS")
+					choices := c.Checklist(languages,
+						"Agregar pre-configuraciones",
+						nil)
+					out := func() (c []string) {
+						for _, v := range choices {
+							c = append(c, languages[v])
+						}
+						return
+					}
+					c.Println("Configuraciones agregadas", strings.Join(out(), ", "))
+				} else if choice2 == 2 {
+					c.Println("Creando scaffolding de Python")
+					choices := c.Checklist(languages,
+						"Agregar pre-configuraciones",
+						nil)
+					out := func() (c []string) {
+						for _, v := range choices {
+							c = append(c, languages[v])
+						}
+						return
+					}
+					c.Println("Configuraciones agregadas", strings.Join(out(), ", "))
+				}
 			} else {
 				c.Println("En contrucción..")
 			}
@@ -131,11 +163,11 @@ func main() {
 	// multiple choice
 	shell.AddCmd(&ishell.Cmd{
 		Name: "module",
-		Help: "Selección de ",
+		Help: "Agranda tu combo",
 		Func: func(c *ishell.Context) {
-			languages := []string{"", "NodeJs", "Python"}
+			languages := []string{"DB", "Docker", "CI-CD", "Athena", "New Relic", "Data Dog"}
 			choices := c.Checklist(languages,
-				"¿Qué lenguaje deseas utilizar?",
+				"Agregar extras",
 				nil)
 			out := func() (c []string) {
 				for _, v := range choices {
