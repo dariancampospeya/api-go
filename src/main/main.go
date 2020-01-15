@@ -16,11 +16,11 @@ func main() {
 	shell := ishell.New()
 
 	// display info.
-	shell.Println("Sample Interactive Shell")
+	shell.Println("Darian Campos Test")
 
 	//Consider the unicode characters supported by the users font
-	//shell.SetMultiChoicePrompt(" >>"," - ")
-	//shell.SetChecklistOptions("[ ] ","[X] ")
+	shell.SetMultiChoicePrompt(" >>", " - ")
+	shell.SetChecklistOptions("[ ] ", "[X] ")
 
 	// handle login.
 	shell.AddCmd(&ishell.Cmd{
@@ -46,15 +46,15 @@ func main() {
 
 	// handle "greet".
 	shell.AddCmd(&ishell.Cmd{
-		Name:    "greet",
-		Aliases: []string{"hello", "welcome"},
-		Help:    "greet user",
+		Name:    "Saludo",
+		Aliases: []string{"Hola", "Bienvenido!!"},
+		Help:    "Saludo Usuario",
 		Func: func(c *ishell.Context) {
 			name := "Stranger"
 			if len(c.Args) > 0 {
 				name = strings.Join(c.Args, " ")
 			}
-			c.Println("Hello", name)
+			c.Println("Hola", name)
 		},
 	})
 
@@ -66,7 +66,7 @@ func main() {
 			c.ShowPrompt(false)
 			defer c.ShowPrompt(true)
 
-			defaultInput := "default input, you can edit this"
+			defaultInput := "Texto por default."
 			if len(c.Args) > 0 {
 				defaultInput = strings.Join(c.Args, " ")
 			}
@@ -75,9 +75,9 @@ func main() {
 			read := c.ReadLineWithDefault(defaultInput)
 
 			if read == defaultInput {
-				c.Println("you left the default input intact")
+				c.Println("No has realizado ningun cambio.")
 			} else {
-				c.Printf("you modified input to '%s'", read)
+				c.Printf("Modificaste el texto por defecto: '%s'", read)
 				c.Println()
 			}
 		},
@@ -94,33 +94,80 @@ func main() {
 		},
 	})
 
-	// multiple choice
+	// Agregar nuevo módulo choice
+	red := color.New(color.FgRed).SprintFunc()
 	shell.AddCmd(&ishell.Cmd{
-		Name: "choice",
-		Help: "multiple choice prompt",
+		Name: "Add",
+		Help: "Agregar modulos a su proyecto",
 		Func: func(c *ishell.Context) {
 			choice := c.MultiChoice([]string{
-				"Golangers",
-				"Go programmers",
-				"Gophers",
-				"Goers",
-			}, "What are Go programmers called ?")
-			if choice == 2 {
-				c.Println("You got it!")
+				"Android",
+				"iOS",
+				"Backend",
+				"Otro",
+			}, red("¿Qué scaffolding quieres crear?"))
+			if choice == 0 {
+				c.Println("Creando scaffolding de Android")
+			} else if choice == 1 {
+				c.Println("Creando scaffolding de iOS")
+			} else if choice == 2 {
+				choice2 := c.MultiChoice([]string{
+					"Go",
+					"NodeJs",
+					"Python",
+				}, "¿Qué lenguaje desea utilizar?")
+				languages := []string{"DB", "Docker", "CI-CD", "Athena", "New Relic", "Data Dog"}
+				if choice2 == 0 {
+					c.Println("Creando scaffolding de Go")
+					choices := c.Checklist(languages,
+						"Agregar pre-configuraciones",
+						nil)
+					out := func() (c []string) {
+						for _, v := range choices {
+							c = append(c, languages[v])
+						}
+						return
+					}
+					c.Println("Configuraciones agregadas", strings.Join(out(), ", "))
+				} else if choice2 == 1 {
+					c.Println("Creando scaffolding de NodeJS")
+					choices := c.Checklist(languages,
+						"Agregar pre-configuraciones",
+						nil)
+					out := func() (c []string) {
+						for _, v := range choices {
+							c = append(c, languages[v])
+						}
+						return
+					}
+					c.Println("Configuraciones agregadas", strings.Join(out(), ", "))
+				} else if choice2 == 2 {
+					c.Println("Creando scaffolding de Python")
+					choices := c.Checklist(languages,
+						"Agregar pre-configuraciones",
+						nil)
+					out := func() (c []string) {
+						for _, v := range choices {
+							c = append(c, languages[v])
+						}
+						return
+					}
+					c.Println("Configuraciones agregadas", strings.Join(out(), ", "))
+				}
 			} else {
-				c.Println("Sorry, you're wrong.")
+				c.Println("En contrucción..")
 			}
 		},
 	})
 
 	// multiple choice
 	shell.AddCmd(&ishell.Cmd{
-		Name: "checklist",
-		Help: "checklist prompt",
+		Name: "module",
+		Help: "Agranda tu combo",
 		Func: func(c *ishell.Context) {
-			languages := []string{"Python", "Go", "Haskell", "Rust"}
+			languages := []string{"DB", "Docker", "CI-CD", "Athena", "New Relic", "Data Dog"}
 			choices := c.Checklist(languages,
-				"What are your favourite programming languages ?",
+				"Agregar extras",
 				nil)
 			out := func() (c []string) {
 				for _, v := range choices {
