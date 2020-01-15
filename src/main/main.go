@@ -19,8 +19,8 @@ func main() {
 	shell.Println("Darian Campos Test")
 
 	//Consider the unicode characters supported by the users font
-	//shell.SetMultiChoicePrompt(" >>"," - ")
-	//shell.SetChecklistOptions("[ ] ","[X] ")
+	shell.SetMultiChoicePrompt(" >>", " - ")
+	shell.SetChecklistOptions("[ ] ", "[X] ")
 
 	// handle login.
 	shell.AddCmd(&ishell.Cmd{
